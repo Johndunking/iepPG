@@ -17,15 +17,44 @@ const PORT = process.env.PORT || 3001;
 
 const path = require('path');
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
+// Add the /oauth2callback route here
+app.get('/oauth2callback', (req, res) => {
+  const code = req.query.code;
 
-// Catch-all handler to serve React app for non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  if (!code) {
+    return res.status(400).send('Authorization code not provided.');
+  }
+
+  // Read credentials file
+  fs.readFile('credentials.json', (err, content) => {
+    if (err) {
+      return res.status(500).send('Error loading client secret file.');
+    }
+
+    const credentials = JSON.parse(content);
+    const { client_secret, client_id, redirect_uris } = credentials.web || credentials.installed;
+    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+
+    // Exchange authorization code for tokens
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) {
+        return res.status(500).send('Error retrieving access token.');
+      }
+
+      oAuth2Client.setCredentials(token);
+
+      // Store token for future use
+      fs.writeFile('token.json', JSON.stringify(token), (err) => {
+        if (err) return res.status(500).send('Error storing token.');
+      });
+
+      // Now you can call your logic for creating or updating a presentation
+      res.redirect('/'); // Redirect to home or another page after authorization
+    });
+  });
 });
 
-
+// Your existing routes, like the /upload route, go below this
 app.post('/upload', upload.single('file'), async (req, res) => {
   const file = req.file;
 
@@ -82,6 +111,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       }
     });
   }
+});
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// Catch-all handler to serve React app for non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 function processData(text) {
