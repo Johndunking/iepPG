@@ -3,7 +3,7 @@ const multer = require('multer');
 const fs = require('fs');
 const cors = require('cors');
 const { google } = require('googleapis');
-const { authorize } = require('./google-auth');
+const { authorize } = require('../google-auth');
 const { exec } = require('child_process');
 
 const app = express();
