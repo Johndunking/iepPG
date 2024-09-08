@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: 'https://ieppg-48efe5776c91.herokuapp.com', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
