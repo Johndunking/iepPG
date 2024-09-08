@@ -3,13 +3,6 @@ import axios from 'axios';
 import { Oval } from 'react-loader-spinner';
 
 
-const response = await axios.post('/upload', formData, {
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-});
-
-
 const UploadForm = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false); // State to track loading
