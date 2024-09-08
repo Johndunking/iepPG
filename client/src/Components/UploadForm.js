@@ -19,7 +19,7 @@ const UploadForm = () => {
     setLoading(true); // Show the loading spinner
 
     try {
-      const response = await axios.post('http://localhost:3001/upload', formData, {
+      const response = await axios.post('https://ieppg-48efe5776c91.herokuapp.com/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
