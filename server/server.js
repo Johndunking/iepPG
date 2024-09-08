@@ -15,9 +15,16 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3001;
 
-app.get('/', (req, res) => {
-  res.send('<h1>Server is running</h1>');
+const path = require('path');
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// Catch-all handler to serve React app for non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
 
 app.post('/upload', upload.single('file'), async (req, res) => {
   const file = req.file;
