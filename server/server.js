@@ -45,7 +45,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
       const studentName = extractedData.name || 'Unknown Student';
 
-      authorize(auth => {
+      authorize(auth => { 
         console.log('Extracted Data:', extractedData); // Debugging: Ensure data.firstName is not undefined
 
         copyPptxTemplate(auth, '133ir5Klbfi1Tu9OPSfGcnuB-2tJcGxsPOQTCwTk6N-Y', extractedData, (pptxCopyId) => {
