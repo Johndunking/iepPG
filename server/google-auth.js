@@ -52,7 +52,7 @@ function getNewToken(oAuth2Client, callback) {
 function checkToken(callback) {
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) {
-      return callback(`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=${encodeURIComponent(SCOPES.join(' '))}&response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=http://localhost:3001/oauth2callback`);
+      return callback(`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=${encodeURIComponent(SCOPES.join(' '))}&response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=https://ieppg-48efe5776c91.herokuapp.com/oauth2callback`);
     }
     callback(null);
   });
