@@ -5,15 +5,17 @@ const cors = require('cors');
 const { google } = require('googleapis');
 const { authorize } = require('./google-auth');
 const { exec } = require('child_process');
-const path = require('path');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
-const PORT = process.env.PORT || 3001;
 
 app.use(cors({ origin: 'https://ieppg-48efe5776c91.herokuapp.com', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const PORT = process.env.PORT || 3001;
+
+const path = require('path');
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -23,7 +25,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-// Upload route to handle file processing
+
 app.post('/upload', upload.single('file'), async (req, res) => {
   const file = req.file;
 
@@ -36,7 +38,6 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   try {
     console.log('Attempting to extract text from PDF file using Python:', filePath);
 
-    // Execute Python script to extract text from PDF
     exec(`python3 extract_text.py ${filePath}`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing Python script: ${stderr}`);
@@ -46,11 +47,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       const text = stdout;
       console.log('Extracted text:', text);
 
-      // Process the extracted text
       const extractedData = processData(text);
       console.log('Extracted data:', extractedData);
 
+      const studentName = extractedData.name || 'Unknown Student';
+
       authorize(auth => { 
+        console.log('Extracted Data:', extractedData); // Debugging: Ensure data.firstName is not undefined
+
         copyPptxTemplate(auth, '133ir5Klbfi1Tu9OPSfGcnuB-2tJcGxsPOQTCwTk6N-Y', extractedData, (pptxCopyId) => {
           updatePresentation(auth, extractedData, pptxCopyId, res);
 
