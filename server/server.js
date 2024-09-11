@@ -60,11 +60,11 @@ app.get('/authenticate', (req, res) => {
 
 // Logout route for switching accounts
 app.get('/logout', (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     if (err) {
       return res.status(500).send('Failed to log out.');
     }
-    res.clearCookie('connect.sid'); // Clear the session cookie
+    res.clearCookie('connect.sid', { path: '/' }); // Clear the session cookie
     res.redirect('/'); // Redirect to the home page after logging out
   });
 });
@@ -102,10 +102,11 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
       const studentName = extractedData.name || 'Unknown Student';
 
-      // Use the user's stored token for API calls
+      // Create a new OAuth2 client and set credentials from the session
       const oAuth2Client = new google.auth.OAuth2();
-      oAuth2Client.setCredentials(req.session.token);
+      oAuth2Client.setCredentials(req.session.token); // Ensure this is using the current session token
 
+      // Proceed with copying and updating the presentation in the user's Google Drive
       copyPptxTemplate(oAuth2Client, '133ir5Klbfi1Tu9OPSfGcnuB-2tJcGxsPOQTCwTk6N-Y', extractedData, (pptxCopyId) => {
         updatePresentation(oAuth2Client, extractedData, pptxCopyId, res);
 
