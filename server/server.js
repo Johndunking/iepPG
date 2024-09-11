@@ -155,7 +155,7 @@ function processData(text) {
     socialEmotional: /Social Emotional\/Behavioral\s+(.+?)(?=Vocational)/s.exec(text),
     vocational: /Vocational\s+(.+?)(?=Adaptive\/Daily Living Skills)/s.exec(text),
     dailyLiving: /Adaptive\/Daily Living Skills\s+(.+?)(?=Health)/s.exec(text),
-    health: /(Hearing Date:\s+\d{1,2}\/\d{1,2}\/\d{4})\s+((?:Fail[^\n]*?☑|Other[^\n]*?☑)[^\n]*?(.*?))(?=Preacademic\/Academic\/Functional Skills)/s.exec(text),
+    health: /Hearing Date:\s+(.+?)(?=Preacademic\/Academic\/Functional Skills)/s.exec(text),
   };
 
   const accommodationsMatch = /Program Accommodations\s+((?:[^\n]*[^\d\n]+\.\s*)+)/.exec(text);
@@ -328,7 +328,7 @@ function processData(text) {
       {
         insertText: {
           objectId: 'p15_i2',
-          text: `${data.presentLevels.health}`, // No sanitization before replacing
+          text: `Hearing Date: ${data.presentLevels.health}`, // No sanitization before replacing
         },
       },
     ];

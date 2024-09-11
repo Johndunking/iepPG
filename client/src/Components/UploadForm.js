@@ -117,7 +117,8 @@ const UploadForm = () => {
               <li>1. Sign in with your Google account if prompted.</li>
               <li>2. Upload a valid PDF file containing the IEP data (Download IEP files from SEIS then upload here).</li>
               <li>3. Once uploaded, a new Google Slides presentation will be generated and saved to the signed in google drive.</li>
-              <li>4. You can switch accounts if needed by clicking the "Switch Account" button.</li>
+              <li>4. Review all slides and make sure they match your use case for IEP meeting.</li>
+              <li>5. You can switch accounts if needed by clicking the "Switch Account" button.</li>
             </ul>
           </div>
         </>
