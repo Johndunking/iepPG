@@ -5,7 +5,7 @@ import { Oval } from 'react-loader-spinner';
 const UploadForm = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(null); // Use null to indicate unknown state initially
 
   // Check if the user is authenticated
   useEffect(() => {
@@ -20,9 +20,11 @@ const UploadForm = () => {
         }
       } catch (error) {
         console.error('Error checking authentication', error);
+        setAuthenticated(false); // In case of error, set to unauthenticated to avoid looping
       }
     };
 
+    // Only check authentication once on component mount
     checkAuth();
   }, []);
 
@@ -30,7 +32,6 @@ const UploadForm = () => {
     setFile(e.target.files[0]);
   };
 
-  // Function to handle file upload
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,10 +40,9 @@ const UploadForm = () => {
       return;
     }
 
-    setLoading(true); // Show the loading spinner
+    setLoading(true);
 
     try {
-      // Proceed with file upload
       const formData = new FormData();
       formData.append('file', file);
 
@@ -51,30 +51,44 @@ const UploadForm = () => {
         withCredentials: true, // Send cookies with request for authentication
       });
 
-      // Open the updated Google Slides presentation in a new tab
       const { link } = response.data;
       window.open(link, '_blank');
     } catch (error) {
       console.error('Error uploading file', error);
       alert('Failed to upload file.');
     } finally {
-      setLoading(false); // Hide the loading spinner
+      setLoading(false);
     }
   };
 
-  // Function to handle account switching
   const handleSwitchAccount = async () => {
     try {
-      // Call the logout route to clear the session
       await axios.get('https://ieppg-48efe5776c91.herokuapp.com/logout', { withCredentials: true });
-      
-      // Redirect to Google OAuth for authentication
       window.location.href = 'https://ieppg-48efe5776c91.herokuapp.com/authenticate';
     } catch (error) {
       console.error('Error switching account', error);
       alert('Failed to switch account.');
     }
   };
+
+  // If the authenticated state is unknown, render a loading spinner
+  if (authenticated === null) {
+    return (
+      <div className="loading-overlay">
+        <Oval
+          height={80}
+          width={80}
+          color="#4fa94d"
+          wrapperStyle={{}}
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4fa94d"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -104,7 +118,6 @@ const UploadForm = () => {
         </form>
       )}
 
-      {/* Styles for buttons */}
       <style jsx>{`
         form {
           display: flex;
