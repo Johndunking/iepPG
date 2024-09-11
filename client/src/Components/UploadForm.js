@@ -14,9 +14,9 @@ const UploadForm = () => {
         const authResponse = await axios.get('https://ieppg-48efe5776c91.herokuapp.com/check-auth', { withCredentials: true });
         setAuthenticated(authResponse.data.authenticated);
 
-        // Automatically redirect if not authenticated
+        // Redirect to auth screen if not authenticated
         if (!authResponse.data.authenticated) {
-          window.location.href = 'https://ieppg-48efe5776c91.herokuapp.com/authenticate';
+          window.location.href = '/auth';
         }
       } catch (error) {
         console.error('Error checking authentication', error);
@@ -94,11 +94,7 @@ const UploadForm = () => {
         </div>
       )}
 
-      {!authenticated ? (
-        <div>
-          <button onClick={() => window.location.href = 'https://ieppg-48efe5776c91.herokuapp.com/authenticate'}>Sign In with Google</button>
-        </div>
-      ) : (
+      {authenticated && (
         <form onSubmit={handleSubmit}>
           <input type="file" onChange={handleFileChange} />
           <button type="submit">Upload</button>
@@ -116,15 +112,17 @@ const UploadForm = () => {
           gap: 20px;
         }
         button {
-          color: lightcoral;
+          color: white;
+          background-color: lightgray;
           border: none;
           font-size: 16px;
           cursor: pointer;
-          transition: transform 0.3s ease;
+          transition: transform 0.3s ease, background-color 0.3s ease;
           padding: 10px 20px;
         }
         button:hover {
           transform: scale(1.1);
+          background-color: gray;
         }
         button:focus {
           outline: none;
