@@ -99,16 +99,31 @@ const UploadForm = () => {
           <button onClick={() => window.location.href = 'https://ieppg-48efe5776c91.herokuapp.com/authenticate'}>Sign In with Google</button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <input type="file" onChange={handleFileChange} />
-          <button type="submit">Upload</button>
-          <button type="button" onClick={handleSwitchAccount} style={{ marginLeft: '10px' }}>
-            Switch Account
-          </button>
-        </form>
+        <>
+          <form onSubmit={handleSubmit}>
+            <input type="file" onChange={handleFileChange} />
+            <button type="submit">Upload</button>
+            <button type="button" onClick={handleSwitchAccount} style={{ marginLeft: '10px' }}>
+              Switch Account
+            </button>
+          </form>
+          
+          {/* Instructions box */}
+          <div className="instructions-box">
+            <p>
+              Instructions:
+            </p>
+            <ul>
+              <li>1. Sign in with your Google account if prompted.</li>
+              <li>2. Upload a valid PDF file containing the IEP data (Download IEP files from SEIS then upload here).</li>
+              <li>3. Once uploaded, a new Google Slides presentation will be generated and saved to the signed in google drive.</li>
+              <li>4. You can switch accounts if needed by clicking the "Switch Account" button.</li>
+            </ul>
+          </div>
+        </>
       )}
 
-      {/* Styles for buttons */}
+      {/* Styles for buttons and instructions */}
       <style jsx>{`
         form {
           display: flex;
@@ -133,6 +148,23 @@ const UploadForm = () => {
         }
         input[type="file"] {
           margin-right: 20px;
+        }
+        .instructions-box {
+          margin-top: 20px;
+          padding: 15px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #f9f9f9;
+        }
+        .instructions-box p {
+          font-weight: bold;
+        }
+        .instructions-box ul {
+          margin: 0;
+          padding-left: 20px;
+        }
+        .instructions-box li {
+          margin-bottom: 10px;
         }
       `}</style>
     </div>
