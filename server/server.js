@@ -39,8 +39,23 @@ app.get('/oauth2callback', (req, res) => {
     req.session.token = token;
 
     // Redirect to the upload page or another location after successful authentication
-    res.redirect('/upload'); 
+    res.redirect('/'); 
   });
+});
+
+// Endpoint to check if the user is authenticated
+app.get('/check-auth', (req, res) => {
+  if (req.session.token) {
+    res.json({ authenticated: true });
+  } else {
+    res.json({ authenticated: false });
+  }
+});
+
+// Endpoint to start the OAuth authentication flow
+app.get('/authenticate', (req, res) => {
+  const authUrl = generateAuthUrl();
+  res.redirect(authUrl);
 });
 
 // Upload route
@@ -106,7 +121,6 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-
 function processData(text) {
   const data = {};
 
