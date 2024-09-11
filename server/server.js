@@ -13,11 +13,17 @@ app.use(cors({ origin: 'https://ieppg-48efe5776c91.herokuapp.com', credentials: 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Set up sessions to store user tokens
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true,
+}));
+
 const PORT = process.env.PORT || 3001;
 
 const path = require('path');
 
-// Add the /oauth2callback route here
 app.get('/oauth2callback', (req, res) => {
   const code = req.query.code;
 
@@ -25,41 +31,28 @@ app.get('/oauth2callback', (req, res) => {
     return res.status(400).send('Authorization code not provided.');
   }
 
-  // Read credentials file
-  fs.readFile('credentials.json', (err, content) => {
-    if (err) {
-      return res.status(500).send('Error loading client secret file.');
-    }
+  getTokenFromCode(code, (err, oAuth2Client, token) => {
+    if (err) return res.status(500).send('Error retrieving access token.');
 
-    const credentials = JSON.parse(content);
-    const { client_secret, client_id, redirect_uris } = credentials.web || credentials.installed;
-    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+    // Store the user's token in the session
+    req.session.token = token;
 
-    // Exchange authorization code for tokens
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) {
-        return res.status(500).send('Error retrieving access token.');
-      }
-
-      oAuth2Client.setCredentials(token);
-
-      // Store token for future use
-      fs.writeFile('token.json', JSON.stringify(token), (err) => {
-        if (err) return res.status(500).send('Error storing token.');
-      });
-
-      // Now you can call your logic for creating or updating a presentation
-      res.redirect('/'); // Redirect to home or another page after authorization
-    });
+    res.redirect('/upload'); // Redirect to the upload page or another location after successful authentication
   });
 });
 
 // Your existing routes, like the /upload route, go below this
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.post('/upload', upload.single('file'), (req, res) => {
   const file = req.file;
 
   if (!file) {
     return res.status(400).send('No file uploaded.');
+  }
+
+  if (!req.session.token) {
+    // If no token, redirect the user to Google OAuth
+    const authUrl = generateAuthUrl();
+    return res.redirect(authUrl);
   }
 
   const filePath = file.path;
@@ -81,35 +74,26 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
       const studentName = extractedData.name || 'Unknown Student';
 
-      authorize(auth => { 
-        console.log('Extracted Data:', extractedData); // Debugging: Ensure data.firstName is not undefined
+      // Use the user's stored token for API calls
+      const oAuth2Client = new google.auth.OAuth2();
+      oAuth2Client.setCredentials(req.session.token);
 
-        copyPptxTemplate(auth, '133ir5Klbfi1Tu9OPSfGcnuB-2tJcGxsPOQTCwTk6N-Y', extractedData, (pptxCopyId) => {
-          updatePresentation(auth, extractedData, pptxCopyId, res);
+      copyPptxTemplate(oAuth2Client, '133ir5Klbfi1Tu9OPSfGcnuB-2tJcGxsPOQTCwTk6N-Y', extractedData, (pptxCopyId) => {
+        updatePresentation(oAuth2Client, extractedData, pptxCopyId, res);
 
-          // Delete the uploaded file after processing
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error('Error deleting uploaded file:', err);
-            } else {
-              console.log('Uploaded file deleted:', filePath);
-            }
-          });
+        // Delete the uploaded file after processing
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error('Error deleting uploaded file:', err);
+          } else {
+            console.log('Uploaded file deleted:', filePath);
+          }
         });
       });
     });
   } catch (error) {
     console.error('Error processing file:', error);
     res.status(500).send('Error processing file.');
-
-    // Delete the uploaded file even if there's an error
-    fs.unlink(file.path, (err) => {
-      if (err) {
-        console.error('Error deleting uploaded file after error:', err);
-      } else {
-        console.log('Uploaded file deleted after error:', file.path);
-      }
-    });
   }
 });
 
