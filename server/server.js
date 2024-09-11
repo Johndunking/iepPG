@@ -327,12 +327,6 @@ function processData(text) {
       },
       {
         insertText: {
-          objectId: 'g6d7f6a8238_0_827',
-          text: `${data.accommodations}`, // No sanitization before replacing
-        },
-      },
-      {
-        insertText: {
           objectId: 'p15_i2',
           text: `${data.presentLevels.health}`, // No sanitization before replacing
         },
