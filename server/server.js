@@ -124,7 +124,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     console.error('Error processing file:', error);
     res.status(500).send('Error processing file.');
   }
-});
+}); 
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -155,7 +155,7 @@ function processData(text) {
     socialEmotional: /Social Emotional\/Behavioral\s+(.+?)(?=Vocational)/s.exec(text),
     vocational: /Vocational\s+(.+?)(?=Adaptive\/Daily Living Skills)/s.exec(text),
     dailyLiving: /Adaptive\/Daily Living Skills\s+(.+?)(?=Health)/s.exec(text),
-    health: /Hearing Date:\s+(.+?)(?=Preacademic\/Academic\/Functional Skills)/s.exec(text),
+    health: /(Hearing Date:\s+\d{1,2}\/\d{1,2}\/\d{4})\s+((?:Fail[^\n]*?☑|Other[^\n]*?☑)[^\n]*?(.*?))(?=Preacademic\/Academic\/Functional Skills)/s.exec(text),
   };
 
   const accommodationsMatch = /Program Accommodations\s+((?:[^\n]*[^\d\n]+\.\s*)+)/.exec(text);
