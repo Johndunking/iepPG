@@ -3,9 +3,9 @@ const multer = require('multer');
 const fs = require('fs');
 const cors = require('cors');
 const { google } = require('googleapis');
-const { authorize } = require('./google-auth');
+const { generateAuthUrl, getTokenFromCode } = require('./google-auth'); // Import the required functions
 const { exec } = require('child_process');
-const session = require('express-session');
+const session = require('express-session'); // Ensure you have express-session imported
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
@@ -22,9 +22,9 @@ app.use(session({
 }));
 
 const PORT = process.env.PORT || 3001;
-
 const path = require('path');
 
+// OAuth2 callback route
 app.get('/oauth2callback', (req, res) => {
   const code = req.query.code;
 
@@ -38,11 +38,12 @@ app.get('/oauth2callback', (req, res) => {
     // Store the user's token in the session
     req.session.token = token;
 
-    res.redirect('/upload'); // Redirect to the upload page or another location after successful authentication
+    // Redirect to the upload page or another location after successful authentication
+    res.redirect('/upload'); 
   });
 });
 
-// Your existing routes, like the /upload route, go below this
+// Upload route
 app.post('/upload', upload.single('file'), (req, res) => {
   const file = req.file;
 
@@ -105,6 +106,11 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 
 function processData(text) {
   const data = {};
