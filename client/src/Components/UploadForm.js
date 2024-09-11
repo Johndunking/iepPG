@@ -10,6 +10,7 @@ const UploadForm = () => {
     setFile(e.target.files[0]);
   };
 
+  // Function to handle file upload
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,6 +54,20 @@ const UploadForm = () => {
     }
   };
 
+  // Function to handle account switching
+  const handleSwitchAccount = async () => {
+    try {
+      // Call the logout route to clear the session
+      await axios.get('https://ieppg-48efe5776c91.herokuapp.com/logout', { withCredentials: true });
+
+      // Redirect to Google OAuth for authentication
+      window.location.href = 'https://ieppg-48efe5776c91.herokuapp.com/authenticate';
+    } catch (error) {
+      console.error('Error switching account', error);
+      alert('Failed to switch account.');
+    }
+  };
+
   return (
     <div>
       {loading && (
@@ -74,6 +89,9 @@ const UploadForm = () => {
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
         <button type="submit">Upload</button>
+        <button type="button" onClick={handleSwitchAccount} style={{ marginLeft: '10px' }}>
+          Switch Account
+        </button>
       </form>
     </div>
   );

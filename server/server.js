@@ -58,6 +58,17 @@ app.get('/authenticate', (req, res) => {
   res.redirect(authUrl);
 });
 
+// Logout route for switching accounts
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).send('Failed to log out.');
+    }
+    res.clearCookie('connect.sid'); // Clear the session cookie
+    res.redirect('/'); // Redirect to the home page after logging out
+  });
+});
+
 // Upload route
 app.post('/upload', upload.single('file'), (req, res) => {
   const file = req.file;
