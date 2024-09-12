@@ -100,6 +100,7 @@ const UploadForm = () => {
         </div>
       ) : (
         <>
+        <div className="container">
           <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleFileChange} />
             <button type="submit">Upload</button>
@@ -121,81 +122,91 @@ const UploadForm = () => {
               <li>5. You can switch accounts if needed by clicking the "Switch Account" button.</li>
             </ul>
           </div>
+          </div>
         </>
       )}
 
       {/* Styles for buttons and instructions */}
-            <style jsx>{`
-        form {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-          width: 100%;
-        }
-        button {
-          color: white;
-          background-color: lightgray;
-          border: none;
-          font-size: 16px;
-          cursor: pointer;
-          transition: transform 0.3s ease, background-color 0.3s ease;
-          padding: 10px 20px;
-          width: 100%;
-          max-width: 200px;
-        }
-        button:hover {
-          transform: scale(1.05);
-          background-color: gray;
-        }
-        button:focus {
-          outline: none;
-        }
-        input[type="file"] {
-          margin-right: 10px;
-          width: 100%;
-        }
-        .instructions-box {
-          margin-top: 20px;
-          padding: 15px;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          background-color: #f9f9f9;
-          width: 100%;
-          max-width: 500px;
-        }
-        .instructions-box p {
-          font-weight: bold;
-        }
-        .instructions-box ul {
-          margin: 0;
-          padding-left: 20px;
-        }
-        .instructions-box li {
-          margin-bottom: 10px;
-        }
+      <style jsx>{`
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px; /* Space between the upload form and instructions */
+    padding: 20px;
+  }
 
-        /* Media Query for Mobile Devices */
-        @media (max-width: 600px) {
-          form {
-            flex-direction: column;
-            width: 90%;
-          }
-          button {
-            width: 100%;
-          }
-          input[type="file"] {
-            width: 100%;
-            margin-right: 0;
-          }
-          .instructions-box {
-            width: 100%;
-            margin-left: 5px;
-            margin-right: 5px;
-            padding: 10px;
-          }
-        }
-      `}</style>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  button {
+    color: white;
+    background-color: lightgray;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    padding: 10px 20px;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    background-color: gray;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  input[type="file"] {
+    margin-right: 20px;
+  }
+
+  .instructions-box {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-width: 300px; /* Set a max width for instructions */
+  }
+
+  .instructions-box p {
+    font-weight: bold;
+  }
+
+  .instructions-box ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .instructions-box li {
+    margin-bottom: 10px;
+  }
+
+  /* Media Query for Mobile Devices */
+  @media (max-width: 600px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+
+    form {
+      width: 100%;
+      align-items: center;
+    }
+
+    .instructions-box {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+`}</style>
     </div>
   );
 };
