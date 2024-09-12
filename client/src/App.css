@@ -36,3 +36,81 @@
     transform: rotate(360deg);
   }
 }
+/* Mobile-first styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.App-header {
+  font-size: 16px; /* Default for mobile */
+}
+
+/* Media Queries for Different Screen Sizes */
+
+/* Small devices (phones, up to 600px) */
+@media (max-width: 600px) {
+  .App-logo {
+    height: 30vmin;
+  }
+
+  .App-header {
+    font-size: calc(8px + 1.5vmin);
+    padding: 20px;
+    min-height: 80vh;
+  }
+
+  .App-link {
+    font-size: 14px;
+  }
+}
+
+/* Medium devices (tablets, up to 768px) */
+@media (max-width: 768px) {
+  .App-logo {
+    height: 35vmin;
+  }
+
+  .App-header {
+    font-size: calc(9px + 1.75vmin);
+    min-height: 85vh;
+  }
+
+  .App-link {
+    font-size: 15px;
+  }
+}
+
+/* Large devices (desktops, up to 1024px) */
+@media (max-width: 1024px) {
+  .App-logo {
+    height: 40vmin;
+  }
+
+  .App-header {
+    font-size: calc(10px + 2vmin);
+    padding: 30px;
+  }
+
+  .App-link {
+    font-size: 16px;
+  }
+}
+
+/* Extra large devices (large desktops, more than 1024px) */
+@media (min-width: 1025px) {
+  .App-logo {
+    height: 40vmin;
+  }
+
+  .App-header {
+    font-size: calc(11px + 2.5vmin);
+  }
+
+  .App-link {
+    font-size: 18px;
+  }
+}
