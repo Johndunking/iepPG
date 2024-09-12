@@ -100,20 +100,6 @@ const UploadForm = () => {
         </div>
       ) : (
         <>
-         <div className="container">
-  {/* Instructions box */}
-          <div className="instructions-box">
-            <p>Instructions:</p>
-            <ul>
-              <li>1. Sign in with your Google account if prompted.</li>
-              <li>2. Upload a valid PDF file containing the IEP data (Download IEP files from SEIS then upload here).</li>
-              <li>3. Once uploaded, a new Google Slides presentation will be generated and saved to the signed-in Google Drive.</li>
-              <li>4. Review all slides and make sure they match your use case for the IEP meeting.</li>
-              <li>5. You can switch accounts if needed by clicking the "Switch Account" button.</li>
-            </ul>
-          </div>
-
-          {/* Upload form */}
           <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleFileChange} />
             <button type="submit">Upload</button>
@@ -121,88 +107,67 @@ const UploadForm = () => {
               Switch Account
             </button>
           </form>
-        </div>
+          
+          {/* Instructions box */}
+          <div className="instructions-box">
+            <p>
+              Instructions:
+            </p>
+            <ul>
+              <li>1. Sign in with your Google account if prompted.</li>
+              <li>2. Upload a valid PDF file containing the IEP data (Download IEP files from SEIS then upload here).</li>
+              <li>3. Once uploaded, a new Google Slides presentation will be generated and saved to the signed in google drive.</li>
+              <li>4. Review all slides and make sure they match your use case for IEP meeting.</li>
+              <li>5. You can switch accounts if needed by clicking the "Switch Account" button.</li>
+            </ul>
+          </div>
         </>
       )}
 
       {/* Styles for buttons and instructions */}
-          <style jsx>{`
-      .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        gap: 40px; /* Gap between the instructions and upload form */
-      }
-
-      form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-      }
-
-      button {
-        color: white;
-        background-color: lightgray;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-        padding: 10px 20px;
-      }
-
-      button:hover {
-        transform: scale(1.1);
-        background-color: gray;
-      }
-
-      button:focus {
-        outline: none;
-      }
-
-      input[type="file"] {
-        margin-right: 20px;
-      }
-
-      .instructions-box {
-        padding: 15px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        max-width: 300px;
-      }
-
-      .instructions-box p {
-        font-weight: bold;
-      }
-
-      .instructions-box ul {
-        margin: 0;
-        padding-left: 20px;
-      }
-
-      .instructions-box li {
-        margin-bottom: 10px;
-      }
-
-      /* Media Query for Mobile Devices */
-      @media (max-width: 600px) {
-        .container {
-          flex-direction: column;
-          align-items: center;
-        }
-
+      <style jsx>{`
         form {
-          width: 100%;
+          display: flex;
+          justify-content: center;
+          gap: 20px;
         }
-
+        button {
+          color: white;
+          background-color: lightgray;
+          border: none;
+          font-size: 16px;
+          cursor: pointer;
+          transition: transform 0.3s ease, background-color 0.3s ease;
+          padding: 10px 20px;
+        }
+        button:hover {
+          transform: scale(1.1);
+          background-color: gray;
+        }
+        button:focus {
+          outline: none;
+        }
+        input[type="file"] {
+          margin-right: 20px;
+        }
         .instructions-box {
-          width: 100%;
-          max-width: 100%;
+          margin-top: 20px;
+          padding: 15px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #f9f9f9;
         }
-      }
-    `}</style>
+        .instructions-box p {
+          font-weight: bold;
+        }
+        .instructions-box ul {
+          margin: 0;
+          padding-left: 20px;
+        }
+        .instructions-box li {
+          margin-bottom: 10px;
+        }
+      `}</style>
     </div>
   );
 };
