@@ -125,11 +125,13 @@ const UploadForm = () => {
       )}
 
       {/* Styles for buttons and instructions */}
-      <style jsx>{`
+            <style jsx>{`
         form {
           display: flex;
-          justify-content: center;
-          gap: 20px;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
         }
         button {
           color: white;
@@ -139,16 +141,19 @@ const UploadForm = () => {
           cursor: pointer;
           transition: transform 0.3s ease, background-color 0.3s ease;
           padding: 10px 20px;
+          width: 100%;
+          max-width: 200px;
         }
         button:hover {
-          transform: scale(1.1);
+          transform: scale(1.05);
           background-color: gray;
         }
         button:focus {
           outline: none;
         }
         input[type="file"] {
-          margin-right: 20px;
+          margin-right: 10px;
+          width: 100%;
         }
         .instructions-box {
           margin-top: 20px;
@@ -156,6 +161,8 @@ const UploadForm = () => {
           border: 1px solid #ccc;
           border-radius: 8px;
           background-color: #f9f9f9;
+          width: 100%;
+          max-width: 500px;
         }
         .instructions-box p {
           font-weight: bold;
@@ -166,6 +173,27 @@ const UploadForm = () => {
         }
         .instructions-box li {
           margin-bottom: 10px;
+        }
+
+        /* Media Query for Mobile Devices */
+        @media (max-width: 600px) {
+          form {
+            flex-direction: column;
+            width: 90%;
+          }
+          button {
+            width: 100%;
+          }
+          input[type="file"] {
+            width: 100%;
+            margin-right: 0;
+          }
+          .instructions-box {
+            width: 100%;
+            margin-left: 5px;
+            margin-right: 5px;
+            padding: 10px;
+          }
         }
       `}</style>
     </div>
