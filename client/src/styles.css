@@ -14,9 +14,12 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    width: 100%;          /* Ensures it takes up the full width of its container */
+    max-width: 400px;      /* Maximum width for larger screens */
+    margin: 0 auto;        /* Center the container */
+    box-sizing: border-box; /* Ensure padding is included in the width */
   }
+  
   
   h1 {
     text-align: center;
@@ -49,3 +52,18 @@ body {
     background-color: #45a049;
   }
   
+  /* Mobile responsiveness */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;       /* Reduce padding for small screens */
+    max-width: 90%;      /* Allow the container to take 90% of the screen */
+  }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 18px;
+    max-width: 80%;      /* Allow container to be 80% of screen width */
+  }
+}
