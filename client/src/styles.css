@@ -15,7 +15,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;          /* Ensures it takes up the full width of its container */
-    max-width: 400px;      /* Maximum width for larger screens */
+    max-width: 800px;      /* Maximum width for larger screens */
     margin: 0 auto;        /* Center the container */
     box-sizing: border-box; /* Ensure padding is included in the width */
   }
