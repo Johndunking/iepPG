@@ -56,7 +56,7 @@ body {
 @media (max-width: 600px) {
   .container {
     padding: 15px;       /* Reduce padding for small screens */
-    max-width: 90%;      /* Allow the container to take 90% of the screen */
+    max-width: 120%;      /* Allow the container to take 90% of the screen */
   }
 }
 
@@ -64,6 +64,6 @@ body {
 @media (max-width: 768px) {
   .container {
     padding: 18px;
-    max-width: 80%;      /* Allow container to be 80% of screen width */
+    max-width: 150%;      /* Allow container to be 80% of screen width */
   }
 }
