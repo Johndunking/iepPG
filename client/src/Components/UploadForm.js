@@ -77,7 +77,7 @@ const UploadForm = () => {
   };
 
   return (
-    <div className="container">
+    <div>
       {loading && (
         <div className="loading-overlay">
           <Oval
@@ -123,8 +123,53 @@ const UploadForm = () => {
           </div>
         </>
       )}
+
+      {/* Styles for buttons and instructions */}
+      <style jsx>{`
+        form {
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+        }
+        button {
+          color: white;
+          background-color: lightgray;
+          border: none;
+          font-size: 16px;
+          cursor: pointer;
+          transition: transform 0.3s ease, background-color 0.3s ease;
+          padding: 10px 20px;
+        }
+        button:hover {
+          transform: scale(1.1);
+          background-color: gray;
+        }
+        button:focus {
+          outline: none;
+        }
+        input[type="file"] {
+          margin-right: 20px;
+        }
+        .instructions-box {
+          margin-top: 20px;
+          padding: 15px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #f9f9f9;
+        }
+        .instructions-box p {
+          font-weight: bold;
+        }
+        .instructions-box ul {
+          margin: 0;
+          padding-left: 20px;
+        }
+        .instructions-box li {
+          margin-bottom: 10px;
+        }
+      `}</style>
     </div>
   );
 };
 
-export default UploadForm;git 
+export default UploadForm;
