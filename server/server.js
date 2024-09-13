@@ -64,8 +64,8 @@ app.get('/logout', (req, res) => {
     if (err) {
       return res.status(500).send('Failed to log out.');
     }
-    res.clearCookie('connect.sid', { path: '/', secure: true, sameSite: 'None' }); // Clear the session cookie with SameSite and secure attributes
-    res.redirect('https://accounts.google.com/Logout?continue=https://ieppg-48efe5776c91.herokuapp.com/authenticate'); // Ensure logout from Google
+    res.clearCookie('connect.sid', { path: '/' }); // Clear the session cookie
+    res.redirect('/'); // Redirect to the home page after logging out
   });
 });
 
