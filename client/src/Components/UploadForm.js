@@ -65,14 +65,11 @@ const UploadForm = () => {
   // Function to handle account switching
   const handleSwitchAccount = async () => {
     try {
-      // Call the logout route to clear the session on the server
+      // Call the logout route to clear the session
       await axios.get('https://ieppg-48efe5776c91.herokuapp.com/logout', { withCredentials: true });
-  
-      // Clear cookies and reload the page to ensure no old session is used
-      document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Example of clearing the session cookie
       
-      // Optionally, redirect to Google's logout URL to ensure account switching
-      window.location.href = 'https://accounts.google.com/Logout?continue=https://ieppg-48efe5776c91.herokuapp.com/authenticate';
+      // Redirect to Google OAuth for authentication
+      window.location.href = 'https://ieppg-48efe5776c91.herokuapp.com/authenticate';
     } catch (error) {
       console.error('Error switching account', error);
       alert('Failed to switch account.');
